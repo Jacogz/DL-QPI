@@ -1,7 +1,7 @@
 # NEXT
 
 Actualizado: 2026-10-24
-Issue activo: por crear (ver issues sugeridos del bootstrap)
+Issue activo: #1
 
 ## Siguiente paso
 Preparar, antes de la reunión del 2026-10-28, un resumen de 1 página con: (1) resumen del
