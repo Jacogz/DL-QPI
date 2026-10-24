@@ -1,0 +1,4 @@
+.env
+CLAUDE.local.md
+__pycache__/
+.ipynb_checkpoints/
