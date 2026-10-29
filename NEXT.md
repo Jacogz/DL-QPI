@@ -1,36 +1,45 @@
 # NEXT
 
-Actualizado: 2026-10-27
-Issue activo: #3
+Actualizado: 2026-10-29
+Issue activo: ninguno fijo — #7, #8, #9 abiertos (ver Estado)
 
 ## Siguiente paso
-- Issue #3: preparar, antes de la reunión del 2026-10-28, el resumen de 1 página (dataset
-  eritrocitos + malaria *P. Vivax*, 3 opciones de problema, preguntas abiertas). Ya se agregó ahí
-  la pregunta sobre la convención de nombres del dataset de eritrocitos (ver Bloqueos).
-- Issue #4: redactar título + objetivo general + 2-3 específicos. Última instancia de decisión:
-  reunión del profesor el 2026-10-28. Entregable #1 vence el 2026-10-29.
+- Pendiente de una próxima sesión: adjuntar e indexar el documento de entregable #1 (título +
+  objetivo general + específicos, ya enviado) en `docs/` y actualizar el README con la sección
+  "Objetivos" (issue #4 se cerró ya, pero el DoD original —README actualizado— no se cumplió
+  todavía; queda como deuda a resolver cuando llegue el documento).
+- #9 (Jacobo): ADR de arquitectura general del pipeline — buen punto de partida porque #7 y #8
+  dependen de cómo queden definidas las interfaces entre componentes.
+- #7 (sin asignar — Juan aún no es colaborador del repo): limpieza de datasets (malaria y fases
+  RBC).
+- #8 (Sahian): heurística de validación (segmentación + perfil/delta de fase).
+- #6 sigue abierto: setup del entorno en el notebook de Colab, sin definir.
 
 ## Estado
-Issues #1 y #2 cerrados el 2026-10-27 (ver comentarios de cierre en GitHub para el detalle
-completo):
-- **#1** (eritrocitos, DHM↔fase) — `notebooks/01-eda-eritrocitos.ipynb`: descarga cacheada en
-  Drive, ~9k pares emparejados del split `Training` (de 36.864 por carpeta, por nombres no 1:1),
-  overlay+SSIM, distribución de valores de píxel y canales, outliers por z-score. Cerrado sin la
-  sección "Observaciones y decisiones" del DoD (decisión explícita de cerrar igual).
-- **#2** (malaria *P. Vivax*) — `notebooks/02-eda-malaria.ipynb`: descarga vía `kagglehub` +
-  `getpass` (mismo directorio base `/content/data` que el notebook de eritrocitos), estructura
-  (1328 imágenes RGB + 2 `.json` de anotaciones), agregación de anotaciones (86.035 total, 2.9%
-  enfermas: trophozoite/ring/schizont/gametocyte), descripción de imágenes y recorte en parches
-  256x256. Cerrado sin la captura lado a lado explícita del DoD (decisión explícita de cerrar
-  igual).
+Sesión del 2026-10-29 (post-reunión del profesor, 2026-10-28):
+- **#3** cerrado — `docs/reunion-2026-10-28.md` committeado, con las 3 opciones de problema y las
+  respuestas del profesor a las preguntas abiertas. Dirección elegida: opción 3 (bridge CycleGAN
+  malaria→fase, usando la reconstrucción de eritrocitos sanos como base técnica).
+- **#5** cerrado — tabla de roles agregada al README (documentación, no división rígida de
+  trabajo; los 3 pueden tocar cualquier parte): Jacobo=arquitectura, Juan=datos, Sahian=heurística
+  /modelo.
+- **#4** cerrado — entregable #1 (título + objetivo general + específicos) ya enviado al
+  profesor. Falta adjuntar el documento al repo e indexarlo (ver Siguiente paso).
+- **#7, #8, #9** creados y agregados al Project 6, detallando las tareas iniciales de la nueva
+  dirección (limpieza de datos, heurística de validación, ADR de arquitectura).
 
-Comparación de modalidad (insumo para #3): el malaria es campo brillante teñido, fondo saturado
-en 255, media de píxel ≈185; los hologramas/fase son interferometría sin saturación, medias
-≈78/137 — modalidades de captura muy distintas.
+Pipeline acordado para la limpieza de malaria (issue #7): RGB→gris → rescale para igualar tamaño
+de célula → recorte 256x256 → eliminar imágenes (menos de 3 células / con infección / con cúmulos
+difíciles de segmentar) → aumentación (flips y rotaciones aleatorias). Para fases RBC: eliminar
+imágenes con manchas oscuras.
+
+Heurística de validación (issue #8): segmentar eritrocitos en imágenes de fase, calcular perfil y
+delta de fase por eritrocito, visualizar la reconstrucción de cada uno, y anotar sobre la imagen
+completa el promedio de perfil/delta por imagen.
 
 ## Bloqueos y dudas
-- Problema concreto bloqueado hasta la reunión del profesor el 2026-10-28.
-- Fuente exacta del dataset de malaria: resuelta — `orvile/p-vivax-malaria-infected-human-blood-smears`
-  en Kaggle (issue #2).
-- Roles del equipo (Juan, Sahian, yo) sin definir (issue #5).
+- Juan (`juanlotero2552`) no es colaborador del repo todavía — issue #7 quedó sin asignar hasta
+  que acepte una invitación.
 - Setup del entorno en el notebook de Colab sin definir (issue #6).
+- Deuda del DoD original de #4: el README no tiene todavía la sección "Objetivos" con el
+  contenido enviado al profesor (se resuelve cuando se adjunte el documento).
